@@ -2,18 +2,54 @@
 <html>
 <head>
   <script>
+    // OneDrive 图片直链列表 - 使用下方 Node.js 脚本更新
     const imageLinks = [
       "https://img.picui.cn/free/2025/06/15/684da28518686.jpg",
-      "https://img.picui.cn/free/2025/06/15/684da285854e3.jpg",
-      // 添加更多直链...
+      "https://img.picui.cn/free/2025/06/15/684da285854e3.jpg"
     ];
     
+    // 添加随机参数防止缓存
+    const randomParam = `?t=${Date.now()}`;
+    
     // 随机重定向到图片
-    const randomIndex = Math.floor(Math.random() * imageLinks.length);
-    window.location.replace(imageLinks[randomIndex]);
+    function redirectToRandomImage() {
+      try {
+        const randomIndex = Math.floor(Math.random() * imageLinks.length);
+        const imgLink = imageLinks[randomIndex] + randomParam;
+        console.log("Redirecting to:", imgLink);
+        window.location.replace(imgLink);
+      } catch (error) {
+        console.error("Redirect error:", error);
+        showFallback();
+      }
+    }
+    
+    // 错误回退显示
+    function showFallback() {
+      const infoDiv = document.createElement("div");
+      infoDiv.innerHTML = `
+        <h3>随机图片服务</h3>
+        <p>总图片数: ${imageLinks.length}</p>
+        <p>如果重定向失败，请检查：</p>
+        <ul>
+          <li>OneDrive 分享设置是否为"任何人可查看"</li>
+          <li>浏览器是否启用 JavaScript</li>
+          <li>添加随机参数防止缓存 ${randomParam}</li>
+        </ul>
+        <p>最近更新: ${new Date().toLocaleString()}</p>
+      `;
+      document.body.appendChild(infoDiv);
+    }
+    
+    // 页面加载后立即重定向
+    window.addEventListener('DOMContentLoaded', redirectToRandomImage);
   </script>
 </head>
 <body>
-  <p>正在重定向到随机图片...</p>
+  <p style="text-align:center;margin-top:20%">
+    正在重定向到随机图片...
+    <br>
+    <small>如果没有自动跳转，<a href="javascript:redirectToRandomImage()">请点击这里</a></small>
+  </p>
 </body>
 </html>
