@@ -1,0 +1,15 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: '.'
+      - name: Deploy
+        uses: actions/deploy-pages@v3
